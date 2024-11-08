@@ -1,42 +1,58 @@
-import { Formik, Field, ErrorMessage } from "formik"
-import * as Yup from 'yup'
+import { useState } from "react";
+import { Formik } from "formik";
+import * as Yup from 'yup';
 
 const CreateUser = () => {
+    const [message, setMessage] = useState(null); // Estado para mensajes de éxito/error
 
-        
-    const RegisterUser = async (values) =>{
+    const RegisterUser = async (values) => {
+        // Obtener el token sin comillas adicionales
+        const token = JSON.parse(localStorage.getItem('token'))?.replace(/"/g, "");
 
-        const token = JSON.parse(localStorage.getItem('token'))
-
-        const bodyRegisterUser = {
-            nombre:values.username,
-            password:values.password
+        if (!token) {
+            setMessage("Error: No se encontró un token de autenticación. Inicia sesión primero.");
+            return;
         }
 
-        console.log("bodyRegisterUser", bodyRegisterUser)
+        const bodyRegisterUser = {
+            usuario: values.username, 
+            password: values.password
+        };
+        
+        try {
+            const response = await fetch('http://localhost:5000/users', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token  // Quita el "Bearer" si no es necesario
+                },
+                body: JSON.stringify(bodyRegisterUser)  // Asegurarse de que se envía correctamente en formato JSON
+            });
 
-        const response = await fetch('http://localhost:5000/users', {
-            method:'POST',
-            body: JSON.stringify(bodyRegisterUser),
-            headers:{
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.log("Error en la respuesta del servidor:", errorData); // Depuración
+                setMessage(`Error: ${errorData.msg || "Error en la creación del usuario"}`);
+                return;
             }
-        })
 
-        console.log(response)
+            setMessage("Usuario creado exitosamente");
 
-    }
+        } catch (error) {
+            console.log("Error en la solicitud:", error);
+            setMessage("Error en la solicitud. Por favor, intenta de nuevo.");
+        }
+    };
 
     const ValidationSchema = Yup.object().shape({
-        password:Yup.string()
+        password: Yup.string()
             .required("Es un campo requerido")
-            .min(5, 'esta contraseña debe ser por lo menos de 5 caracteres'),
-        username:Yup.string()
-            .required("Pone username, no me hagas calentar")
-            .min(5)
-            .max(15)
-    })
+            .min(5, 'La contraseña debe tener al menos 5 caracteres'),
+        username: Yup.string()
+            .required("El nombre de usuario es requerido")
+            .min(5, 'Mínimo 5 caracteres')
+            .max(15, 'Máximo 15 caracteres')
+    });
 
     return (
         <Formik
@@ -49,12 +65,9 @@ const CreateUser = () => {
                 touched,
                 handleChange,
                 handleBlur,
-                isValid,
-                /* and other goodies */
+                isValid
             }) => (
-                // console.log("isValid", isValid),
                 <form>
-                    
                     <input
                         type="text"
                         name="username"
@@ -73,13 +86,20 @@ const CreateUser = () => {
                     />
                     {errors.password && touched.password && errors.password}
 
-                    <button type="button" onClick={() => RegisterUser(values)} disabled={values.username === '' || values.password === '' || !isValid}>
+                    <button
+                        type="button"
+                        onClick={() => RegisterUser(values)}
+                        disabled={values.username === '' || values.password === '' || !isValid}
+                    >
                         Crear Usuario
                     </button>
+
+                    {/* Mostrar mensaje de éxito o error */}
+                    {message && <p>{message}</p>}
                 </form>
             )}
         </Formik>
-    )
-}
+    );
+};
 
-export default CreateUser
+export default CreateUser;

@@ -1,43 +1,44 @@
-import { Fragment } from "react"
-import { ProgressSpinner } from "primereact/progressspinner"
+import { Fragment } from 'react';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Button } from "primereact/button";
-        
+import { Button } from 'primereact/button';
 
+const UsersView = ({ loadingData, data, handleDelete, handleUpdate }) => {
+    const bodyIsAdmin = (rowData) => {
+        return rowData.is_admin ? <span>SI</span> : <span>NO</span>;
+    };
 
-
-const UsersView = ({loadingData, data}) => {
-
-    const bodyIsAdmin = (rowData) =>{
+    const bodyActions = (rowData) => {
         return (
-            rowData.is_admin === true ? <span>SI</span> : <span>NO</span>
-        )
-    }
-
-    const bodyActions = (row) => {
-        return(
-            <div>
-                <Button label="Delete" />
-                <Button label="Update"/>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <Button 
+                    label="Eliminar" 
+                    className="p-button-danger" 
+                    onClick={() => handleDelete(rowData.id)} 
+                />
+                <Button 
+                    label="Editar" 
+                    className="p-button-secondary" 
+                    onClick={() => handleUpdate(rowData.id)} 
+                />
             </div>
-        )
-    }
-
+        );
+    };
 
     return (
         <Fragment>
-        {loadingData ? <ProgressSpinner/> 
-        : 
-        <DataTable value={data} tableStyle={{ minWidth: '50rem' }}>
-            <Column field="nombre" header="Username"></Column>
-            <Column field="is_admin" body={bodyIsAdmin} header="Admin"></Column>
-            <Column body={bodyActions} header="Botones"></Column>
-        </DataTable>
-        }
-    </Fragment>
-    )
+            {loadingData ? (
+                <ProgressSpinner />
+            ) : (
+                <DataTable value={data} tableStyle={{ minWidth: '50rem' }}>
+                    <Column field="username" header="Username" />
+                    <Column field="is_admin" header="Admin" body={bodyIsAdmin} />
+                    <Column header="Acciones" body={bodyActions} />
+                </DataTable>
+            )}
+        </Fragment>
+    );
+};
 
-}
-
-export default UsersView
+export default UsersView;

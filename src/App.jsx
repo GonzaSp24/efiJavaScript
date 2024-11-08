@@ -6,104 +6,102 @@ import LoginUser from './Components/Users/LoginUser';
 import EquiposContainer from './Components/Equipos/EquiposContainer';
 import CreateEquipo from './Components/Equipos/CreateEquipo';
 import { Menubar } from 'primereact/menubar';
-import { Button } from 'primereact/button';
+
+
+// Componente Home necesita estar FUERA del BrowserRouter
+const HomeContent = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="home-container">
+      <div className="card">
+        <h2>Bienvenido a CellphoneSpStore</h2>
+        <div className="button-container">
+          <button 
+            onClick={() => navigate('/usuarios')}
+            className="p-button"
+          >
+            Gestión de Usuarios
+          </button>
+          <button 
+            onClick={() => navigate('/equipos')}
+            className="p-button"
+          >
+            Gestión de Equipos
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 function App() {
-  const userItems = [
-    { label: 'Usuarios', icon: 'pi pi-users', to: '/usuarios' },
-    { label: 'Cargar Usuario', icon: 'pi pi-user-plus', to: '/usuarios/nuevo' },
-    { label: 'Login', icon: 'pi pi-sign-in', to: '/usuarios/login' },
-  ];
-
-  const equipoItems = [
-    { label: 'Equipos', icon: 'pi pi-tablet', to: '/equipos' },
-    { label: 'Cargar Equipo', icon: 'pi pi-plus', to: '/equipos/nuevo' },
+  const menuItems = [
+    {
+      label: 'Inicio',
+      icon: 'pi pi-home',
+      url: '/'
+    },
+    {
+      label: 'Usuarios',
+      icon: 'pi pi-users',
+      items: [
+        {
+          label: 'Ver Usuarios',
+          icon: 'pi pi-list',
+          url: '/usuarios'
+        },
+        {
+          label: 'Nuevo Usuario',
+          icon: 'pi pi-user-plus',
+          url: '/nuevo_usuario'
+        },
+        {
+          label: 'Iniciar Sesión',
+          icon: 'pi pi-sign-in',
+          url: '/inicio_sesion'
+        }
+      ]
+    },
+    {
+      label: 'Equipos',
+      icon: 'pi pi-mobile',
+      items: [
+        {
+          label: 'Ver Equipos',
+          icon: 'pi pi-list',
+          url: '/equipos'
+        },
+        {
+          label: 'Nuevo Equipo',
+          icon: 'pi pi-plus',
+          url: '/nuevo_equipo'
+        }
+      ]
+    }
   ];
 
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Página de inicio con los botones */}
-        <Route path="/" element={<HomePage />} />
+      <div className="app-container">
+        <Menubar model={menuItems} />
+        <h1>EFI React</h1>
         
-        {/* Página de Usuarios */}
-        <Route path="/usuarios/*" element={<UserPage items={userItems} />} />
-        
-        {/* Página de Equipos */}
-        <Route path="/equipos/*" element={<EquipoPage items={equipoItems} />} />
+        <Routes>
+          <Route path="/" element={<HomeContent />} />
+          <Route path="/usuarios" element={<UsersContainer />} />
+          <Route path="/nuevo_usuario" element={<CreateUser />} />
+          <Route path="/inicio_sesion" element={<LoginUser />} />
+          <Route path="/equipos" element={<EquiposContainer />} />
+          <Route path="/nuevo_equipo" element={<CreateEquipo />} />
+          <Route path="*" element={<h2>Página no encontrada</h2>} />
+        </Routes>
 
-        {/* Ruta de Página No Encontrada */}
-        <Route path="*" element={<h2>Página no encontrada</h2>} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
-
-// Página de inicio con dos botones para navegar a Usuarios o Equipos
-function HomePage() {
-  const navigate = useNavigate();
-
-  return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h2>Bienvenido a Celulares LEPAGO</h2>
-      <div style={{ marginTop: '20px' }}>
-        <Button
-          label="Usuarios"
-          icon="pi pi-users"
-          onClick={() => navigate('/usuarios')}
-          style={{ margin: '10px' }}
-        />
-        <Button
-          label="Equipos"
-          icon="pi pi-tablet"
-          onClick={() => navigate('/equipos')}
-          style={{ margin: '10px' }}
-        />
+        <footer className="read-the-docs">
+          Proyecto React inicializado por Spernanzoni Gonzalo
+        </footer>
       </div>
-    </div>
-  );
-}
-
-// Componente de botón de regreso al home
-function HomeButton() {
-  const navigate = useNavigate();
-  
-  return (
-    <Button
-      label="Celulares LEPAGO"
-      className="p-button-text p-button-plain"
-      onClick={() => navigate('/')}
-      style={{ fontSize: '1.5rem', marginBottom: '20px' }}
-    />
-  );
-}
-
-// Página de opciones de usuarios con su Menubar
-function UserPage({ items }) {
-  return (
-    <>
-      <HomeButton />
-      <Menubar model={items} />
-      <Routes>
-        <Route path="/" element={<UsersContainer />} />
-        <Route path="nuevo" element={<CreateUser />} />
-        <Route path="login" element={<LoginUser />} />
-      </Routes>
-    </>
-  );
-}
-
-// Página de opciones de equipos con su Menubar
-function EquipoPage({ items }) {
-  return (
-    <>
-      <HomeButton />
-      <Menubar model={items} />
-      <Routes>
-        <Route path="/" element={<EquiposContainer />} />
-        <Route path="nuevo" element={<CreateEquipo />} />
-      </Routes>
-    </>
+    </BrowserRouter>
   );
 }
 
