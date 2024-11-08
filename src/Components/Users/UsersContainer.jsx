@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import UsersView from './UserView'; // Asegúrate de que esta importación esté correcta
-import EditUserForm from './EditUserForm'; // Asegúrate de que este componente exista
+import UsersView from './UserView'; // Verifica que esta importación sea correcta
+import EditUserForm from './EditUserForm'; // Verifica que este componente exista
 
 const UsersContainer = () => {
     const [data, setData] = useState([]);
@@ -17,7 +17,7 @@ const UsersContainer = () => {
         try {
             const response = await fetch('http://localhost:5000/users', {
                 headers: {
-                    "Authorization": ` ${token}`,
+                    "Authorization": `${token}`, // Asegúrate de que el formato sea correcto
                     "Content-Type": "application/json"
                 }
             });
@@ -56,7 +56,8 @@ const UsersContainer = () => {
             });
 
             if (!response.ok) {
-                console.error("Error al eliminar el usuario");
+                const errorData = await response.json();
+                console.error("Error al eliminar el usuario:", errorData);
                 return;
             }
 
@@ -88,12 +89,14 @@ const UsersContainer = () => {
             });
 
             if (!response.ok) {
-                console.error("Error al actualizar el usuario");
+                const errorData = await response.json();
+                console.error("Error al actualizar el usuario:", errorData);
                 return;
             }
 
-            console.log("Usuario actualizado correctamente");
-            setData(data.map(user => (user.id === updatedUser.id ? updatedUser : user)));
+            const data = await response.json();
+            console.log("Usuario actualizado correctamente", data);
+            setData(prevData => prevData.map(user => (user.id === updatedUser.id ? data : user)));
             setSelectedUser(null);
         } catch (error) {
             console.error("Error al intentar actualizar el usuario:", error);
