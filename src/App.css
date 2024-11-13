@@ -28,12 +28,6 @@
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-      animation: logo-spin infinite 20s linear;
-  }
-}
-
 .card {
   padding: 2em;
 }
@@ -93,10 +87,10 @@
 
 .dropdown-menu {
   position: absolute;
-  top: 100%; /* Coloca el menú debajo del botón */
+  top: 100%;
   left: 0;
   z-index: 1000;
-  display: none; /* Oculto por defecto */
+  display: none;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -104,7 +98,6 @@
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Mostrar el menú cuando el dropdown está activo */
 .dropdown:hover .dropdown-menu {
   display: block;
 }
@@ -117,4 +110,246 @@
 
 .dropdown-menu li:hover {
   background-color: #f0f0f0;
+}
+
+/* Estilos para el mensaje de error y éxito */
+.message-box {
+  padding: 10px;
+  margin-top: 20px;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.message-box.error {
+  background-color: #f44336; /* Rojo para errores */
+  border: 1px solid darkred;
+}
+
+.message-box.success {
+  background-color: #4caf50; /* Verde para éxito */
+  border: 1px solid green;
+}
+
+/* Estilos del formulario de creación de usuario y login */
+.login-form-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.login-form-container h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.login-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #2aac9a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #238b7a;
+}
+
+/* Errores de validación en campos */
+.error-message {
+  color: #f44336;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+/* Estilos para el menú */
+.menubar-custom {
+  display: flex;
+  justify-content: center;
+  background-color: #f4f4f4;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.menubar-custom a {
+  display: flex;
+  align-items: center;
+  color: #333;
+  text-decoration: none;
+  padding: 10px 15px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 5px;
+}
+
+.menubar-custom a:hover {
+  background-color: #2aac9a;
+  color: white;
+}
+
+.menubar-custom a .pi {
+  margin-right: 8px; /* Espacio entre el icono y el texto */
+}
+
+/* Opción seleccionada */
+.menubar-custom .active {
+  background-color: #2aac9a;
+  color: white;
+}
+
+/* Espacio entre los elementos del menú */
+.menubar-custom a:not(:last-child) {
+  margin-right: 15px;
+}
+
+/* Contenedor de la página de inicio */
+.home-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo del título */
+.home-title {
+  font-size: 2.5em;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Estilo del botón */
+.home-button {
+  padding: 10px 20px;
+  background-color: #2aac9a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.home-button:hover {
+  background-color: #238b7a;
+}
+
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+h2 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Form Styles */
+.login-form-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-field {
+  margin-bottom: 15px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.login-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-button:disabled {
+  background-color: #ccc;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875em;
+}
+
+/* Table Styles */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th,
+.table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f2f2f2;
+}
+
+.btn-edit,
+.btn-delete {
+  margin-right: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-edit {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
 }
